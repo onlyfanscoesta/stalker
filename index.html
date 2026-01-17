@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>ACCESS GRANTED</title>
+
+<style>
+body {
+    background: black;
+    color: #00ff00;
+    font-family: "Courier New", monospace;
+    padding: 30px;
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    background: #00ff00;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.glitch {
+    font-size: 24px;
+    text-shadow: 0 0 5px #00ff00;
+}
+</style>
+
+</head>
+<body>
+
+<div class="glitch" id="terminal"></div><span class="cursor"></span>
+
+<br><br>
+
+<div>
+Stalker nº 
+<img src="https://visitor-badge.laobi.icu/badge?page_id=hacker-stalker" />
+</div>
+
+<script>
+const text = [
+    "Iniciando rastreamento...",
+    "Acessando dados públicos...",
+    "IP identificado ✔",
+    "Localização aproximada ✔",
+    "Dispositivo monitorado ✔",
+    "",
+    ">>> VOCÊ FOI PEGO <<<",
+    "",
+    "👀🔥"
+];
+
+let i = 0;
+let line = 0;
+let speed = 50;
+
+function type() {
+    if (line < text.length) {
+        if (i < text[line].length) {
+            document.getElementById("terminal").innerHTML += text[line].charAt(i);
+            i++;
+            setTimeout(type, speed);
+        } else {
+            document.getElementById("terminal").innerHTML += "<br>";
+            i = 0;
+            line++;
+            setTimeout(type, 300);
+        }
+    }
+}
+
+type();
+</script>
+
+</body>
+</html>
