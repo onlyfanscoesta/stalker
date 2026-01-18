@@ -2,81 +2,99 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ACCESS GRANTED</title>
 
 <style>
-body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
     background: black;
     color: #00ff00;
     font-family: "Courier New", monospace;
-    padding: 30px;
+    overflow: hidden;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#terminal {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    #terminal {
+        font-size: 1.5rem;
+    }
 }
 
 .cursor {
     display: inline-block;
     width: 10px;
+    height: 1.5rem;
     background: #00ff00;
+    margin-left: 5px;
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
-    0% { opacity: 1; }
-    50% { opacity: 0; }
-    100% { opacity: 1; }
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
 }
 
-.glitch {
-    font-size: 24px;
-    text-shadow: 0 0 5px #00ff00;
+.counter {
+    margin-top: 20px;
+    font-size: 1.2rem;
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="glitch" id="terminal"></div><span class="cursor"></span>
-
-<br><br>
-
-<div>
-Stalker nº 
-<img src="https://visitor-badge.laobi.icu/badge?page_id=hacker-stalker" />
-</div>
+<div id="terminal"></div><span class="cursor"></span>
 
 <script>
 const text = [
-    "Iniciando rastreamento...",
-    "Acessando dados públicos...",
-    "IP identificado ✔",
-    "Localização aproximada ✔",
-    "Dispositivo monitorado ✔",
+    "Inicializando sistema...",
+    "Conexão estabelecida ✔",
+    "Dispositivo identificado ✔",
+    "Monitoramento ativo ✔",
     "",
-    ">>> VOCÊ FOI PEGO <<<",
+    ">>> STALKER DETECTADO <<<",
     "",
     "👀🔥"
 ];
 
 let i = 0;
 let line = 0;
-let speed = 50;
 
 function type() {
     if (line < text.length) {
         if (i < text[line].length) {
             document.getElementById("terminal").innerHTML += text[line].charAt(i);
             i++;
-            setTimeout(type, speed);
+            setTimeout(type, 40);
         } else {
             document.getElementById("terminal").innerHTML += "<br>";
             i = 0;
             line++;
             setTimeout(type, 300);
         }
-    }
-}
-
-type();
-</script>
-
-</body>
-</html>
+    } else {
+        document.getElementById("terminal").innerHTML += `
+        <div class="counter">
+        Stalker nº 
+        <img src="https://visitor-badge.laobi.icu/badge?page_id=contatoportal30-alt.st
