@@ -36,6 +36,19 @@ body {
   line-height: 1.55;
   white-space: pre-line;
 }
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  background: #00ff88;
+  margin-left: 4px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,50% { opacity: 1; }
+  51%,100% { opacity: 0; }
+}
 </style>
 </head>
 
@@ -43,6 +56,7 @@ body {
 
 <div class="container">
   <div id="log" class="log"></div>
+  <span class="cursor"></span>
 </div>
 
 <script>
@@ -58,11 +72,11 @@ let visitas = localStorage.getItem("stalkerCount");
 let count = visitas ? parseInt(visitas) + 1 : 1;
 localStorage.setItem("stalkerCount", count);
 
-const log = document.getElementById("log");
+let texto;
 
 if (count === 1) {
-  log.innerText =
-`Iniciando rastreamento...
+texto = `
+Iniciando rastreamento...
 Conexão estabelecida ✔
 
 Stalker detectado
@@ -72,32 +86,46 @@ Plataforma: compatível
 Horário local: ${horaAtual()}
 
 Localização: ***************
-Exibição protegida
+Acesso restrito
 
 Endereço IP: ***.***.**.**
-Exibição suprimida
+Permissão não concedida
 
-Acesso visual: verificado
-Permissão restrita
+Análise comportamental: ativa
+Monitoramento contínuo
 
-Monitoramento ativo
-Sessão nº ${count}`;
+Sessão nº ${count}
+`;
 } else {
-  log.innerText =
-`Sistema reconheceu você
+texto = `
+Sistema reconheceu você
 Acesso repetido detectado ✔
 
 >>> VOCÊ ESTÁ DE VOLTA <<<
 
-Sessão anterior identificada
-Monitoramento contínuo
+Sessão anterior confirmada
+Monitoramento já em execução
 
 Dispositivo: Smartphone
-Horário local confirmado: ${horaAtual()}
+Horário atualizado: ${horaAtual()}
 
-Observação ativa
-Sessão nº ${count}`;
+Observação contínua
+Sessão nº ${count}
+`;
 }
+
+const log = document.getElementById("log");
+let i = 0;
+
+function digitar() {
+  if (i < texto.length) {
+    log.innerText += texto.charAt(i);
+    i++;
+    setTimeout(digitar, 22); // velocidade da digitação
+  }
+}
+
+setTimeout(digitar, 600); // pequeno delay inicial
 </script>
 
 </body>
