@@ -6,68 +6,128 @@
 <title>ACCESS GRANTED</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 html, body {
-    width: 100%;
-    height: 100%;
-    background: black;
-    color: #00ff00;
-    font-family: "Courier New", monospace;
-    overflow: hidden;
+    width:100%;
+    height:100%;
+    background:black;
+    color:#00ff00;
+    font-family:"Courier New", monospace;
+    overflow:hidden;
 }
 
+/* MATRIX BACKGROUND */
+canvas {
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
+
+/* TERMINAL */
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 #terminal {
-    width: 100%;
-    max-width: 600px;
-    padding: 20px;
-    font-size: 1.2rem;
-    line-height: 1.6;
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:700px;
+    padding:20px;
+    font-size:1.4rem;
+    line-height:1.6;
+    text-shadow:0 0 8px #00ff00;
 }
 
-@media (max-width: 600px) {
-    #terminal {
-        font-size: 1.5rem;
-    }
+@media (max-width:600px){
+    #terminal { font-size:1.6rem; }
 }
 
 .cursor {
-    display: inline-block;
-    width: 10px;
-    height: 1.5rem;
-    background: #00ff00;
-    margin-left: 5px;
-    animation: blink 1s infinite;
+    display:inline-block;
+    width:10px;
+    height:1.6rem;
+    background:#00ff00;
+    animation:blink 1s infinite;
 }
 
 @keyframes blink {
-    0%, 50%, 100% { opacity: 1; }
-    25%, 75% { opacity: 0; }
+    0%,50%,100%{opacity:1;}
+    25%,75%{opacity:0;}
 }
 
 .counter {
-    margin-top: 20px;
-    font-size: 1.2rem;
+    margin-top:25px;
+    font-size:1.2rem;
 }
 </style>
 </head>
 
 <body>
 
-<div id="terminal"></div><span class="cursor"></span>
+<canvas id="matrix"></canvas>
+
+<div>
+  <div id="terminal"></div><span class="cursor"></span>
+</div>
+
+<!-- SOM HACKER -->
+<audio id="bootSound" autoplay>
+  <source src="https://www.soundjay.com/button/sounds/button-09.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const text = [
+/* MATRIX EFFECT */
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const letters = "01アカサタナハマヤラワ0123456789";
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = [];
+
+for (let x = 0; x < columns; x++) drops[x] = 1;
+
+function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+            drops[i] = 0;
+        }
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 33);
+
+/* VIBRAÇÃO */
+if (navigator.vibrate) {
+    navigator.vibrate([200,100,200]);
+}
+
+/* TEXTO TERMINAL */
+const terminal = document.getElementById("terminal");
+const visited = localStorage.getItem("visited");
+
+const text = visited ? [
+    "Sistema reconheceu você...",
+    "Acesso repetido detectado ✔",
+    "",
+    ">>> VOCÊ VOLTOU <<<",
+    "",
+    "👁️ Nós sabemos."
+] : [
     "Inicializando sistema...",
     "Conexão estabelecida ✔",
     "Dispositivo identificado ✔",
@@ -78,23 +138,33 @@ const text = [
     "👀🔥"
 ];
 
-let i = 0;
-let line = 0;
+localStorage.setItem("visited", "true");
 
-function type() {
+let line = 0, char = 0;
+
+function typeEffect() {
     if (line < text.length) {
-        if (i < text[line].length) {
-            document.getElementById("terminal").innerHTML += text[line].charAt(i);
-            i++;
-            setTimeout(type, 40);
+        if (char < text[line].length) {
+            terminal.innerHTML += text[line].charAt(char);
+            char++;
+            setTimeout(typeEffect, 35);
         } else {
-            document.getElementById("terminal").innerHTML += "<br>";
-            i = 0;
+            terminal.innerHTML += "<br>";
+            char = 0;
             line++;
-            setTimeout(type, 300);
+            setTimeout(typeEffect, 300);
         }
     } else {
-        document.getElementById("terminal").innerHTML += `
+        terminal.innerHTML += `
         <div class="counter">
         Stalker nº 
-        <img src="https://visitor-badge.laobi.icu/badge?page_id=contatoportal30-alt.st
+        <img src="https://visitor-badge.laobi.icu/badge?page_id=contatoportal30-alt.stalker" />
+        </div>`;
+    }
+}
+
+typeEffect();
+</script>
+
+</body>
+</html>
