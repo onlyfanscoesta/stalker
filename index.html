@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -23,23 +25,29 @@ body {
   align-items: center;
 }
 
-
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.45);
-  z-index: 1;
+  background: rgba(0,0,0,0.35);
+  z-index: 0;
 }
 
 .container {
   position: relative;
-  z-index: 2;
-
+  z-index: 1;
+  width: 94%;
+  max-width: 420px;
+  background: rgba(0,0,0,0.88);
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(0,255,140,0.35);
+  backdrop-filter: blur(4px);
 }
 
 .log {
   font-size: 0.95rem;
   line-height: 1.6;
+  white-space: pre-line;
 }
 
 .cursor {
@@ -57,3 +65,85 @@ body {
 }
 </style>
 </head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="container">
+  <div class="log" id="log"></div>
+  <div class="cursor"></div>
+</div>
+
+<script>
+const logEl = document.getElementById("log");
+
+const sessionCount = localStorage.getItem("visits")
+  ? parseInt(localStorage.getItem("visits")) + 1
+  : 1;
+
+localStorage.setItem("visits", sessionCount);
+
+const now = new Date();
+const time =
+  now.getHours().toString().padStart(2, "0") + ":" +
+  now.getMinutes().toString().padStart(2, "0");
+
+let lines;
+
+if (sessionCount === 1) {
+  lines = [
+    "Iniciando rastreamento...",
+    "Conexao estabelecida ✔",
+    "Stalker detectado",
+    "",
+    "Dispositivo: Smartphone",
+    "Horario: " + time,
+    "Localizacao: ********",
+    "Endereco IP: ********",
+    "Monitoramento ativo",
+    "Screenshot cam: realizado com sucesso",
+    "",
+    "Stalker nº " + Math.floor(Math.random() * 900 + 100)
+  ];
+} else {
+  lines = [
+    "Sistema reconheceu voce",
+    "Acesso repetido detectado ✔",
+    "",
+    ">>> VOCE ESTA DE VOLTA <<<",
+    "",
+    "Sessao anterior confirmada",
+    "Monitoramento ja em execucao",
+    "",
+    "Dispositivo: Smartphone",
+    "Horario atualizado: " + time,
+    "",
+    "Observacao continua",
+    "Sessao nº " + sessionCount
+  ];
+}
+
+let lineIndex = 0;
+let charIndex = 0;
+
+function typeLine() {
+  if (lineIndex < lines.length) {
+    if (charIndex < lines[lineIndex].length) {
+      logEl.innerHTML += lines[lineIndex].charAt(charIndex);
+      charIndex++;
+      setTimeout(typeLine, 35);
+    } else {
+      logEl.innerHTML += "\n";
+      lineIndex++;
+      charIndex = 0;
+      setTimeout(typeLine, 350);
+    }
+  }
+}
+
+typeLine();
+</script>
+
+</body>
+</html>
