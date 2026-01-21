@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sistema Ativo</title>
 
@@ -62,86 +61,3 @@ body {
 }
 </style>
 </head>
-
-<body>
-
-<div class="overlay"></div>
-
-<div class="container">
-  <div id="log" class="log"></div><span class="cursor"></span>
-</div>
-
-<script>
-function horaAtual() {
-  const d = new Date();
-  return d.toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
-}
-
-let visitas = localStorage.getItem("stalkerCount");
-let count = visitas ? parseInt(visitas) + 1 : 1;
-localStorage.setItem("stalkerCount", count);
-
-let texto = (count === 1)
-? `Iniciando rastreamento...
-Conexão estabelecida ✔
-
-Stalker detectado
-
-Dispositivo: Smartphone
-Plataforma: compatível
-Horário local: ${horaAtual()}
-
-Localização: ***************
-Nível de acesso: restrito
-
-Endereço IP: ***.***.**.**
-Permissão não concedida
-
-Monitoramento ativo
-Sessão nº ${count}
-`
-: `Sistema reconheceu você
-Acesso repetido detectado ✔
-
->>> VOCÊ ESTÁ DE VOLTA <<<
-
-Sessão anterior confirmada
-Monitoramento já em execução
-
-Dispositivo: Smartphone
-Horário atualizado: ${horaAtual()}
-
-Observação contínua
-Sessão nº ${count}
-`;
-
-const tokens = [];
-for (let char of texto) {
-  if (char === "\n") {
-    tokens.push("<br>");
-  } else if (char === " ") {
-    tokens.push("&nbsp;");
-  } else {
-    tokens.push(char);
-  }
-}
-
-const log = document.getElementById("log");
-let i = 0;
-
-function digitar() {
-  if (i < tokens.length) {
-    log.insertAdjacentHTML("beforeend", tokens[i]);
-    i++;
-    setTimeout(digitar, 22);
-  }
-}
-
-setTimeout(digitar, 300);
-</script>
-
-</body>
-</html>
