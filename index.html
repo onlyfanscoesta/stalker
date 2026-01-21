@@ -1,1 +1,158 @@
-<!DOCTYPE html> <html lang="pt-br"> <head> <meta charset="UTF-8"> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Sistema Ativo</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; font-family: Consolas, monospace; } body { min-height: 100vh; background: #000; color: #e6fff3; display: flex; flex-direction: column; align-items: center; } .header { width: 100%; max-width: 480px; margin-top: 10px; } .header img { width: 100%; border-radius: 12px; display: block; } .container { width: 94%; max-width: 480px; background: rgba(0,0,0,0.88); margin-top: 12px; padding: 20px; border-radius: 14px; box-shadow: 0 0 30px rgba(0,255,140,0.35); } .log { font-size: 0.95rem; line-height: 1.6; white-space: pre-line; } .cursor { display: inline-block; width: 8px; height: 1em; background: #00ff88; margin-left: 4px; animation: blink 1s infinite; } @keyframes blink { 0%,50% { opacity: 1; } 51%,100% { opacity: 0; } } </style> </head> <body> <div class="header"> <img src="fundo.jpg" alt="Sistema Coesta"> </div> <div class="container"> <div class="log" id="log"></div> <div class="cursor"></div> </div> <script> const logEl = document.getElementById("log"); const sessionCount = localStorage.getItem("visits") ? parseInt(localStorage.getItem("visits")) + 1 : 1; localStorage.setItem("visits", sessionCount); const now = new Date(); const time = now.getHours().toString().padStart(2, "0") + ":" + now.getMinutes().toString().padStart(2, "0"); let lines; if (sessionCount === 1) { lines = [ "Iniciando rastreamento...", "Conexão estabelecida ✔", "Stalker detectado", "", "Dispositivo: Smartphone", "Horário: " + time, "Localização: https://www.google.com/maps/**°**'**.* S **°**'**.* W", "Endereço IP: **.*.*.***", "Monitoramento ativo", "Screenshot cam: realizado com sucesso, salvo em: /secure/captures/session_" + sessionCount + ".jpg", "", "Stalker nº " + Math.floor(Math.random() * 900 + 100) ]; } else { lines = [ lines = [ "O sistema reconheceu você.", "Acesso repetido detectado ✔", "", ">>> VOCÊ ESTÁ DE VOLTA. <<<", "", "Sessão anterior confirmada", "Monitoramento já em execução", "", "Perfil marcado para observação.", "Nível de curiosidade: elevado.", "Janela ativa: Instagram WebView.", "", "Dispositivo: Smartphone", "Horário atualizado: " + time, "", "Observação contínua", "Sessão nº " + sessionCount ]; } let lineIndex = 0; let charIndex = 0; function typeLine() { if (lineIndex < lines.length) { if (charIndex < lines[lineIndex].length) { logEl.innerHTML += lines[lineIndex].charAt(charIndex); charIndex++; setTimeout(typeLine, 35); } else { logEl.innerHTML += "\n"; lineIndex++; charIndex = 0; setTimeout(typeLine, 350); } } } typeLine(); </script> </body> </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Ativo</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Consolas, monospace;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #000;
+      color: #e6fff3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .header {
+      width: 100%;
+      max-width: 480px;
+      margin-top: 10px;
+    }
+
+    .header img {
+      width: 100%;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .container {
+      width: 94%;
+      max-width: 480px;
+      background: rgba(0,0,0,0.88);
+      margin-top: 12px;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(0,255,140,0.35);
+    }
+
+    .log {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: #00ff88;
+      margin-left: 4px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CABEÇALHO COM IMAGEM -->
+  <div class="header">
+    <img src="fundo.jpg" alt="Sistema Coesta">
+  </div>
+
+  <!-- CONSOLE -->
+  <div class="container">
+    <div class="log" id="log"></div>
+    <div class="cursor"></div>
+  </div>
+
+  <script>
+    const logEl = document.getElementById("log");
+
+    const sessionCount = localStorage.getItem("visits")
+      ? parseInt(localStorage.getItem("visits")) + 1
+      : 1;
+
+    localStorage.setItem("visits", sessionCount);
+
+    const now = new Date();
+    const time =
+      now.getHours().toString().padStart(2, "0") + ":" +
+      now.getMinutes().toString().padStart(2, "0");
+
+    let lines;
+
+    if (sessionCount === 1) {
+      lines = [
+        "Iniciando rastreamento...",
+        "Conexão estabelecida ✔",
+        "Stalker detectado",
+        "",
+        "Dispositivo: Smartphone",
+        "Horário: " + time,
+        "Localização: https://www.google.com/maps/**°**'**.* S **°**'**.* W",
+        "Endereço IP: **.*.*.***",
+        "Monitoramento ativo",
+        "Screenshot cam: realizado com sucesso, salvo em: /secure/captures/session_" + sessionCount + ".jpg",
+        "",
+        "Stalker nº " + Math.floor(Math.random() * 900 + 100)
+      ];
+    } else {
+      lines = [
+        "O sistema reconheceu você.",
+        "Acesso repetido detectado ✔",
+        "",
+        ">>> VOCÊ ESTÁ DE VOLTA. <<<",
+        "",
+        "Sessão anterior confirmada",
+        "Monitoramento já em execução",
+        "",
+        "Perfil marcado para observação.",
+        "Nível de curiosidade: elevado.",
+        "Janela ativa: Instagram WebView.",
+        "",
+        "Dispositivo: Smartphone",
+        "Horário atualizado: " + time,
+        "",
+        "Observação contínua",
+        "Sessão nº " + sessionCount
+      ];
+    }
+
+    let lineIndex = 0;
+    let charIndex = 0;
+
+    function typeLine() {
+      if (lineIndex < lines.length) {
+        if (charIndex < lines[lineIndex].length) {
+          logEl.innerHTML += lines[lineIndex].charAt(charIndex);
+          charIndex++;
+          setTimeout(typeLine, 35);
+        } else {
+          logEl.innerHTML += "\n";
+          lineIndex++;
+          charIndex = 0;
+          setTimeout(typeLine, 350);
+        }
+      }
+    }
+
+    typeLine();
+  </script>
+
+</body>
+</html>
